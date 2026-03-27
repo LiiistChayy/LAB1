@@ -35,14 +35,14 @@ def solve_steel_problem(a1_a, a1_b, a2_a, a2_b, cost_b_mod=0):
     prob.solve(pulp.PULP_CBC_CMD(msg=0))
     ts = sum(pulp.value(s[i][j]) for i in warehouses for j in points)
     return prob, ts
-#%%
+
 a1a, a1b, a2a, a2b = 3600, 5800, 5000, 2400
 res, ts = solve_steel_problem(a1a, a1b, a2a, a2b)
 
 print("--- Базовое решение ---")
 print(f"Общая стоимость: {pulp.value(res.objective)} ДЕ")
 print(f"Объем замены марки 'а' на 'б': {ts} тонн")
-#%%
+
 print("--- Исследование 1.1 ---")
 while ts < 100:
     a1b -= 50; a2b -= 50
@@ -51,7 +51,7 @@ while ts < 100:
     if a1b < 0 or a2b < 0: break
 
 print(f"Результат: замена в {round(ts, 2)} т появилась при запасах 'б': А1={a1b}, А2={a2b}")
-#%%
+
 print("--- Исследование 2.1 ---")
 a1a, a1b, a2a, a2b = 10000, 10000, 10000, 10000
 mod = 0
